@@ -90,9 +90,31 @@ def classification_example(accessToken):
     response = requests.post(url, headers=Headers, json=Body)
     return response
 
+
+def get_result(accessToken, taskId):
+    """
+    获得结果，参考：https://platform.openmmlab.com/docs/zh-CN/open-api/steps/get-result
+    :param accessToken:
+    :param taskId:
+    :return:
+    """
+    Host = "https://platform.openmmlab.com"
+    Path = "/gw/model-inference/openapi/v1/getResult"
+
+    url = urljoin(Host, Path)
+    Headers = dict(Authorization=accessToken)
+    Body = dict(taskId=taskId)
+    response = requests.post(url, headers=Headers, json=Body)
+    return response
+
+
+
 if __name__ == '__main__':
     accessToken = get_access_token()
-    ret = upload_file(accessToken=accessToken, tag="segmentation", files=[r'./data/fire.jpg'])
-    print(ret.json())
-    ret = classification_example(accessToken=accessToken)
+    # ret = upload_file(accessToken=accessToken, tag="segmentation", files=[r'./data/fire.jpg'])
+    # print(ret.json())
+    # ret = classification_example(accessToken=accessToken)
+    # print(ret.json())
+    taskIds = ['tmp_6f2db0b0.jpeg']
+    ret = get_result(accessToken, taskIds[0])
     print(ret.json())
