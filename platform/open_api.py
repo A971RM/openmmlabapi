@@ -38,7 +38,7 @@ def get_access_token():
     url = urljoin(Host, Path)
     response = requests.post(url, headers=Headers)
     if response.ok and response.json().get('msg', '') == 'ok':
-        accessToken = response.json()['data']['accessToken'][len('Bearer'):].strip()
+        accessToken = response.json()['data']['accessToken'].strip()
         return accessToken
     raise ValueError(f"Cannot get {response.url}")
 
@@ -93,6 +93,6 @@ def classification_example(accessToken):
 if __name__ == '__main__':
     accessToken = get_access_token()
     ret = upload_file(accessToken=accessToken, tag="segmentation", files=[r'./data/fire.jpg'])
-    print(ret)
+    print(ret.json())
     ret = classification_example(accessToken=accessToken)
-    print(ret)
+    print(ret.json())
